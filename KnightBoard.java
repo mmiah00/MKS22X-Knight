@@ -37,8 +37,14 @@ public class KnightBoard {
     return ans;
   }
 
-  private boolean moveKnight (int xdir, int ydir, int x, int y) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
+  private boolean moveKnight (int x, int y, int xdir, int ydir) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
+    if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2) {
+      throw new IllegalArgumentException ();
+    }
     if (Math.abs (xdir) == Math.abs (ydir)) {
+      return false;
+    }
+    if (x + xdir >= board[y].length || y + ydir >= board.length) {
       return false;
     }
     board [y + ydir] [x + xdir] += 1;
@@ -53,7 +59,7 @@ public class KnightBoard {
 @returns true when the board is solvable from the specified starting position
 */
   public boolean solve(int startingRow, int startingCol) {
-    return true; 
+    return true;
   }
 
 
