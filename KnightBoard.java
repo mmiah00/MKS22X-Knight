@@ -34,8 +34,29 @@ public class KnightBoard {
         }
       }
     }
-    return ans; 
+    return ans;
   }
+
+  private boolean moveKnight (int xdir, int ydir, int x, int y) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
+    if (Math.abs (xdir) == Math.abs (ydir)) {
+      return false;
+    }
+    board [y + ydir] [x + xdir] += 1;
+    return true;
+  }
+
+  /*
+  Modifies the board by labeling the moves from 1 (at startingRow,startingCol) up to the area of the board in proper knight move steps.
+@throws IllegalStateException when the board contains non-zero values.
+@throws IllegalArgumentException when either parameter is negative
+ or out of bounds.
+@returns true when the board is solvable from the specified starting position
+*/
+  public boolean solve(int startingRow, int startingCol) {
+    return true; 
+  }
+
+
 
 
 }
