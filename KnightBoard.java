@@ -28,11 +28,11 @@ public class KnightBoard {
   }
 
   public String toString () {
-    if (empty ()) {
+    if (empty ()) { //if empty
       String ans = "";
       for (int y = 0; y < board.length; y ++) {
         for (int x = 0; x < board[y].length; x ++) {
-          if (x == board[y].length -1 ) {
+          if (x == board[y].length -1 ) { //if at edge
             ans += "_\n";
           }
           else {
@@ -41,12 +41,12 @@ public class KnightBoard {
         }
       }
       return ans;
-    }
+    } //else
     String ans = "";
     for (int y = 0; y < board.length; y ++) {
       for (int x = 0; x < board[y].length; x ++) {
-        if (board[y][x] < 10) {
-          if (x == board[y].length - 1) {
+        if (board[y][x] < 10) { //if less than one leave a space i front of the digit
+          if (x == board[y].length - 1) { //if at edge
             ans += " " + board[y][x] + "\n";
           }
           else {
@@ -79,7 +79,7 @@ public class KnightBoard {
     if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
       return false;
     }
-    board[y][x] += 1; 
+    board[y][x] += 1;
     board [y + ydir] [x + xdir] += 1;
     return true;
   }
