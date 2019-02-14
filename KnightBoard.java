@@ -79,7 +79,7 @@ public class KnightBoard {
     if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
       return false;
     }
-    board[y][x] += 1;
+    board[y][x] += 1; 
     board [y + ydir] [x + xdir] += 1;
     return true;
   }
