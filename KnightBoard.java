@@ -16,7 +16,30 @@ public class KnightBoard {
     }
   }
 
+  private boolean empty () {
+    for (int y = 0; y < board.length; y ++) {
+      for (int x = 0; x < board[y].length; x ++) {
+        if (board[y][x] > 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   public String toString () {
+    if (empty ()) {
+      String ans = "";
+      for (int y = 0; y < board.length; y ++) {
+        for (int x = 0; x < board[y].length; x ++) {
+          if (x == board[y].length) {
+            ans += "_\n";
+          }
+          ans += "_ ";
+        }
+      }
+      return ans;
+    }
     String ans = "";
     for (int y = 0; y < board.length; y ++) {
       for (int x = 0; x < board[y].length; x ++) {
@@ -41,10 +64,13 @@ public class KnightBoard {
     if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2 || y > board.length || x > board[y].length || y < 0 || x < 0) {
       throw new IllegalArgumentException ();
     }
-    if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
+    if (x + xdir >= board[y].length || y + ydir >= board.length) { //if it goes out of bounds
       return false;
     }
-    if (x + xdir >= board[y].length || y + ydir >= board.length) { //if it goes out of bounds
+    if (board[y + ydir][x+xdir] != 0) { //if the knight has already been there  
+      return false;
+    }
+    if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
       return false;
     }
     board [y + ydir] [x + xdir] += 1;
@@ -92,7 +118,7 @@ public class KnightBoard {
       return true;
     }
     else {
-      return false; 
+      return false;
     }
   }
 
