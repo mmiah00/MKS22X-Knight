@@ -67,13 +67,24 @@ public class KnightBoard {
     if (x + xdir >= board[y].length || y + ydir >= board.length) { //if it goes out of bounds
       return false;
     }
-    if (board[y + ydir][x+xdir] != 0) { //if the knight has already been there  
+    if (board[y + ydir][x+xdir] != 0) { //if the knight has already been there
       return false;
     }
     if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
       return false;
     }
     board [y + ydir] [x + xdir] += 1;
+    return true;
+  }
+
+  private boolean removeKnight (int x, int y) {
+    if (y > board.length || x > board[y].length || y < 0 || x < 0) { //if it's not within bounds
+      throw new IllegalArgumentException ();
+    }
+    if (board[y][x] <= 0) { //if the knight has already been there
+      return false;
+    }
+    board[y][x] -= 1;
     return true;
   }
 
