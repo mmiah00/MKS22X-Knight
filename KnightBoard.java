@@ -129,8 +129,36 @@ public class KnightBoard {
       return true;
     }
     else {
-      return false;
+      for (int r = y; r < board.length; r ++) {
+        for (int c = x; c < board[r].length; c ++) {
+          if (moveKnight (y,x, -1, 2)) {
+            if (solvable (y + 1, x + 1)) {
+              return true;
+            }
+            removeKnight (y,x);
+          }
+          if (moveKnight (y,x, 1, 2)) {
+            if (solvable (y + 1, x + 1)) {
+              return true;
+            }
+            removeKnight (y,x);
+          }
+          if (moveKnight (y,x, -1, -2)) {
+            if (solvable (y + 1, x + 1)) {
+              return true;
+            }
+            removeKnight (y,x);
+          }
+          if (moveKnight (y,x, 1, -2)) {
+            if (solvable (y + 1, x + 1)) {
+              return true;
+            }
+            removeKnight (y,x);
+          }
+        }
+      }
     }
+    return false; 
   }
 
 /*
