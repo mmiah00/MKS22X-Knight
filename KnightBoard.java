@@ -1,11 +1,15 @@
 public class KnightBoard {
   int[][] board;
+  ArrayList <Integer> xsols;
+  ArrayList <Integer> ysols;
   public KnightBoard (int startingRows, int startingCols) {
     if (startingCols <= 0 || startingRows <= 0) {
       throw new IllegalArgumentException ();
     }
     board = new int [startingRows][startingCols];
     reset ();
+    xsols = new ArrayList <Integer> ();
+    ysols = new ArrayList <Integer> (); 
   }
 
   public void reset () {
@@ -79,7 +83,7 @@ public class KnightBoard {
     if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
       return false;
     }
-    board[y][x] += 1; 
+    board[y][x] += 1;
     board [y + ydir] [x + xdir] += 1;
     return true;
   }
