@@ -1,3 +1,5 @@
+java.import.util.ArrayList;
+
 public class KnightBoard {
   int[][] board;
   ArrayList <Integer> xsols;
@@ -9,7 +11,7 @@ public class KnightBoard {
     board = new int [startingRows][startingCols];
     reset ();
     xsols = new ArrayList <Integer> ();
-    ysols = new ArrayList <Integer> (); 
+    ysols = new ArrayList <Integer> ();
   }
 
   public void reset () {
