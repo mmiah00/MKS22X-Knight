@@ -1,4 +1,5 @@
-java.import.util.ArrayList;
+import java.util.ArrayList;
+import java.io.File;
 
 public class KnightBoard {
   int[][] board;
@@ -94,7 +95,7 @@ public class KnightBoard {
     if (y > board.length || x > board[y].length || y < 0 || x < 0) { //if it's not within bounds
       throw new IllegalArgumentException ();
     }
-    if (board[y][x] <= 0) { //if the knight has already been there
+    if (board[y][x] <= 0) { //if the knight hasn't been there yet
       return false;
     }
     board[y][x] -= 1;
