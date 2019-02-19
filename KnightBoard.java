@@ -81,16 +81,17 @@ public class KnightBoard {
   }
 
   public boolean moveKnight (int x, int y, int xdir, int ydir, int num) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
-    if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2 || y > board.length || x > board[y].length || y < 0 || x < 0) {
+    if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2 || Math.abs (xdir) == Math.abs (ydir)) { //^^
       throw new IllegalArgumentException ();
     }
-    if (x + xdir >= board[y].length || y + ydir >= board.length) { //if it goes out of bounds
+
+    if (y >= board.length || y < 0 || x >= board[y].length || x < 0) { //out of bounds
+      throw new IllegalArgumentException ();
+    }
+    if (y + ydir >= board.length || y + ydir < 0 || x + xdir >= board[y].length || x + xdir < 0) { //if it goes out of bounds
       return false;
     }
     if (board[y + ydir][x+xdir] != 0) { //if the knight has already been there
-      return false;
-    }
-    if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
       return false;
     }
     placeKnight (y + ydir, x + xdir, num);
