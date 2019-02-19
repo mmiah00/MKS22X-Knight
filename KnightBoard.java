@@ -73,14 +73,14 @@ public class KnightBoard {
     return ans;
   }
 
-  private void placeKnight (int y, int x) {
+  private void placeKnight (int y, int x, int num) {
     if (y >= board.length || y < 0 || x >= board[y].length || x < 0) {
       throw new IllegalArgumentException ();
     }
-    board [y][x] ++;
+    board [y][x] = num;
   }
 
-  public boolean moveKnight (int x, int y, int xdir, int ydir) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
+  public boolean moveKnight (int x, int y, int xdir, int ydir, int num) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
     if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2 || y > board.length || x > board[y].length || y < 0 || x < 0) {
       throw new IllegalArgumentException ();
     }
@@ -93,7 +93,7 @@ public class KnightBoard {
     if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
       return false;
     }
-    placeKnight (y + ydir, x + xdir); 
+    placeKnight (y + ydir, x + xdir, num);
     return true;
   }
 
@@ -134,7 +134,8 @@ public class KnightBoard {
     if (illegalState ()) {
       throw new IllegalStateException ();
     }
-    if (solvable (startingRow, startingCol)) {
+    placeKnight (startingRow, startingCol,1);
+    if (solvable (startingRow, startingCol, 1)) {
       return true;
     }
     else {
@@ -144,58 +145,54 @@ public class KnightBoard {
 
   }
 
-  private boolean solvable (int y, int x) {
-    if (y >= board.length || x >= board[y].length) {
+  private boolean solvable (int y, int x, int num) {
+    if (num == board.length * board[y].length + 1) { //if filled the whole board
       return true;
     }
     else {
-      for (int r = y; r < board.length; r ++) {
-        for (int c = x; c < board[r].length; c ++) {
-          if (moveKnight (y,x, -1, 2)) {
-            if (solvable (y + 2, x - 1)) {
-              return true;
-            }
-          }
-          if (moveKnight (y,x, 1, 2)) {
-            if (solvable (y + 2, x + 1)) {
-              return true;
-            }
-          }
-          if (moveKnight (y,x, -1, -2)) {
-            if (solvable (y - 2, x - 1)) {
-              return true;
-            }
-          }
-          if (moveKnight (y,x, 1, -2)) {
-            if (solvable (y - 2 , x + 1)) {
-              return true;
-            }
-          }
+      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
+        if (solvable (y + 1, x - 2, num + 1)) {
+          return true;
         }
       }
-    }
-    return false;
-  }
-
-/*
-  private boolean solvable (int col) {
-    if (col >= board[0].length) { //if reaches the end of the board
-      return true; //return true
-    }
-    else {
-      for (int r = 0; r < board.length; r ++) { //go through each row
-        if (addQueen (col,r)) { //if you can add the queen
-          if (solvable (col + 1)) { //check next column
-            return true;
-          }
-          removeQueen (col,r); //remove queen afterwards
+      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
+        if (solvable (y - 1, x - 2, num + 1)) {
+          return true;
         }
       }
+      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
+        if (solvable (y + 2, x - 1, num + 1)) {
+          return true;
+        }
+      }
+      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
+        if (solvable (y -  2, x - 1, num + 1)) {
+          return true;
+        }
+      }
+      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
+        if (solvable (y + 2, x + 1, num + 1)) {
+          return true;
+        }
+      }
+      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
+        if (solvable (y - 2, x + 1, num + 1)) {
+          return true;
+        }
+      }
+      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
+        if (solvable (y + 1, x + 2, num + 1)) {
+          return true;
+        }
+      }
+      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
+        if (solvable (y - 1, x + 2, num + 1)) {
+          return true;
+        }
+      }
+      return false;
     }
-    return false; //else return false
   }
-*/
-
 
 
 
