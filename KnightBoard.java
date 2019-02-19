@@ -80,7 +80,7 @@ public class KnightBoard {
     board [y][x] = num;
   }
 
-  public boolean moveKnight (int x, int y, int xdir, int ydir, int num) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
+  public boolean moveKnight (int y, int x, int xdir, int ydir, int num) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
     if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2 || Math.abs (xdir) == Math.abs (ydir)) { //^^
       throw new IllegalArgumentException ();
     }
