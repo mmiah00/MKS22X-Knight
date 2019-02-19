@@ -120,11 +120,11 @@ public class KnightBoard {
     for (int y = 0; y < board.length; y ++) {
       for (int x = 0; x < board[y].length; x ++) {
         if (board[y][x] < 0) {
-          return false;
+          return true;
         }
       }
     }
-    return true;
+    return false;
   }
 
   public boolean solve(int startingRow, int startingCol) {
@@ -151,42 +151,42 @@ public class KnightBoard {
     }
     else {
       if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-        if (solvable (y + 1, x - 2, num + 1)) {
+        if (solvable (y + 1, x - 2, num + 1)) { //checking from that location
           return true;
         }
       }
       if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
-        if (solvable (y - 1, x - 2, num + 1)) {
+        if (solvable (y - 1, x - 2, num + 1)) { //checking from that location
           return true;
         }
       }
       if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
-        if (solvable (y + 2, x - 1, num + 1)) {
+        if (solvable (y + 2, x - 1, num + 1)) { //checking from that location
           return true;
         }
       }
       if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
-        if (solvable (y -  2, x - 1, num + 1)) {
+        if (solvable (y -  2, x - 1, num + 1)) { //checking from that location
           return true;
         }
       }
       if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
-        if (solvable (y + 2, x + 1, num + 1)) {
+        if (solvable (y + 2, x + 1, num + 1)) { //checking from that location
           return true;
         }
       }
       if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
-        if (solvable (y - 2, x + 1, num + 1)) {
+        if (solvable (y - 2, x + 1, num + 1)) { //checking from that location
           return true;
         }
       }
       if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-        if (solvable (y + 1, x + 2, num + 1)) {
+        if (solvable (y + 1, x + 2, num + 1)) { //checking from that location
           return true;
         }
       }
       if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-        if (solvable (y - 1, x + 2, num + 1)) {
+        if (solvable (y - 1, x + 2, num + 1)) { //checking from that location
           return true;
         }
       }
