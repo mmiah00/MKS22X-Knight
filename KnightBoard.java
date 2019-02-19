@@ -73,6 +73,13 @@ public class KnightBoard {
     return ans;
   }
 
+  private void placeKnight (int y, int x) {
+    if (y >= board.length || y < 0 || x >= board[y].length || x < 0) {
+      throw new IllegalArgumentException ();
+    }
+    board [y][x] ++;
+  }
+
   public boolean moveKnight (int x, int y, int xdir, int ydir) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
     if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2 || y > board.length || x > board[y].length || y < 0 || x < 0) {
       throw new IllegalArgumentException ();
@@ -86,8 +93,7 @@ public class KnightBoard {
     if (Math.abs (xdir) == Math.abs (ydir)) { //the knight has to move 1 in one direction and 2 in another
       return false;
     }
-    board[y][x] += 1;
-    board [y + ydir] [x + xdir] += 1;
+    placeKnight (y + ydir, x + xdir); 
     return true;
   }
 
@@ -146,28 +152,24 @@ public class KnightBoard {
       for (int r = y; r < board.length; r ++) {
         for (int c = x; c < board[r].length; c ++) {
           if (moveKnight (y,x, -1, 2)) {
-            if (solvable (y + 1, x + 1)) {
+            if (solvable (y + 2, x - 1)) {
               return true;
             }
-            removeKnight (y,x);
           }
           if (moveKnight (y,x, 1, 2)) {
-            if (solvable (y + 1, x + 1)) {
+            if (solvable (y + 2, x + 1)) {
               return true;
             }
-            removeKnight (y,x);
           }
           if (moveKnight (y,x, -1, -2)) {
-            if (solvable (y + 1, x + 1)) {
+            if (solvable (y - 2, x - 1)) {
               return true;
             }
-            removeKnight (y,x);
           }
           if (moveKnight (y,x, 1, -2)) {
-            if (solvable (y + 1, x + 1)) {
+            if (solvable (y - 2 , x + 1)) {
               return true;
             }
-            removeKnight (y,x);
           }
         }
       }
