@@ -15,7 +15,7 @@ public class KnightBoard {
     ysols = new ArrayList <Integer> ();
   }
 
-  public void reset () {
+  private void reset () {
     for (int y = 0; y < board.length; y ++) {
       for (int x = 0; x < board[y].length; x ++) {
         board[y][x] = 0;
@@ -109,14 +109,6 @@ public class KnightBoard {
     return true;
   }
 
-  /*
-  Modifies the board by labeling the moves from 1 (at startingRow,startingCol) up to the area of the board in proper knight move steps.
-@throws IllegalStateException when the board contains non-zero values.
-@throws IllegalArgumentException when either parameter is negative
- or out of bounds.
-@returns true when the board is solvable from the specified starting position
-*/
-
   private boolean illegalState () {
     for (int y = 0; y < board.length; y ++) {
       for (int x = 0; x < board[y].length; x ++) {
@@ -130,7 +122,7 @@ public class KnightBoard {
 
   public boolean solve(int startingRow, int startingCol) {
     if (startingRow < 0 || startingCol < 0 || startingRow > board.length || startingCol > board [startingRow].length) {
-      throw new IllegalArgumentException ();
+      throw new IllegalArgumentException ("startingRow and startingCol have to be within bounds");
     }
     if (illegalState ()) {
       throw new IllegalStateException ();
@@ -155,46 +147,89 @@ public class KnightBoard {
         if (solvable (y + 1, x - 2, num + 1)) { //checking from that location
           return true;
         }
+        removeKnight (x,y);
       }
       if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
         if (solvable (y - 1, x - 2, num + 1)) { //checking from that location
           return true;
         }
+        removeKnight (x,y);
       }
       if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
         if (solvable (y + 2, x - 1, num + 1)) { //checking from that location
           return true;
         }
+        removeKnight (x,y);
       }
       if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
         if (solvable (y -  2, x - 1, num + 1)) { //checking from that location
           return true;
         }
+        removeKnight (x,y);
       }
       if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
         if (solvable (y + 2, x + 1, num + 1)) { //checking from that location
           return true;
         }
+        removeKnight (x,y);
       }
       if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
         if (solvable (y - 2, x + 1, num + 1)) { //checking from that location
           return true;
         }
+        removeKnight (x,y);
       }
       if (moveKnight (y,x,2,1,num)) { //right 2 down 1
         if (solvable (y + 1, x + 2, num + 1)) { //checking from that location
           return true;
         }
+        removeKnight (x,y);
       }
       if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
         if (solvable (y - 1, x + 2, num + 1)) { //checking from that location
           return true;
         }
+        removeKnight (x,y);
       }
       return false;
     }
   }
 
+  public int countSolutions (int startingRow, int startingCol) {
+    return count (startingRow, startingCol, 0 , 1);
+  }
 
+  private int count (int y, int x, int partSum, int num) {
+    if (num == board.length * board[y].length + 1) {
+      return partSum;
+    }
+    else {
+      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
+        return count (y + 1, x - 2, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
+        return count (y - 1, x - 2, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
+        return count (y + 2, x - 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
+        return count (y -  2, x - 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
+        return count (y + 2, x + 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
+        return count (y - 2, x + 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
+        return count (y + 1, x + 2, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
+        return count  (y - 1, x + 2, partSum + 1, num + 1);
+      }
+      return 0;
+    }
+  }
 
 }
