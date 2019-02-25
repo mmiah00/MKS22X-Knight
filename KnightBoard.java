@@ -143,15 +143,17 @@ public class KnightBoard {
       int[] movesy = {2,-2,1,-1};
       for (int i = 0; i < movesx.length; i ++) {
         for (int j = 0; j < movesy.length; j ++) {
-          if (moveKnight (y,x,movesx[i], movesy[j], num)) {
-            return solvable (y + movesy[j], x + movesx[i], num + 1);
-          }
-          else {
-            return false;
+          if (movesx[i] != movesy[j]) {
+            if (moveKnight (y,x,movesx[i], movesy[j], num)) {
+              return solvable (y + movesy[j], x + movesx[i], num + 1);
+            }
+            else {
+              return false;
+            }
           }
         }
       }
-      return false; 
+      return false;
     }
   }
 
