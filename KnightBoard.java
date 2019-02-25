@@ -3,16 +3,12 @@ import java.io.File;
 
 public class KnightBoard {
   int[][] board;
-  ArrayList <Integer> xsols;
-  ArrayList <Integer> ysols;
   public KnightBoard (int startingRows, int startingCols) {
     if (startingCols <= 0 || startingRows <= 0) {
       throw new IllegalArgumentException ();
     }
     board = new int [startingRows][startingCols];
     reset ();
-    xsols = new ArrayList <Integer> ();
-    ysols = new ArrayList <Integer> ();
   }
 
   private void reset () {
@@ -143,55 +139,19 @@ public class KnightBoard {
       return true;
     }
     else {
-      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-        if (solvable (y + 1, x - 2, num + 1)) { //checking from that location
-          return true;
+      int[] movesx = {1,-1,2,-2};
+      int[] movesy = {2,-2,1,-1};
+      for (int i = 0; i < movesx.length; i ++) {
+        for (int j = 0; j < movesy.length; j ++) {
+          if (moveKnight (y,x,movesx[i], movesy[j], num)) {
+            return solvable (y + movesy[j], x + movesx[i], num + 1);
+          }
+          else {
+            return false;
+          }
         }
-        removeKnight (x,y);
       }
-      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
-        if (solvable (y - 1, x - 2, num + 1)) { //checking from that location
-          return true;
-        }
-        removeKnight (x,y);
-      }
-      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
-        if (solvable (y + 2, x - 1, num + 1)) { //checking from that location
-          return true;
-        }
-        removeKnight (x,y);
-      }
-      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
-        if (solvable (y -  2, x - 1, num + 1)) { //checking from that location
-          return true;
-        }
-        removeKnight (x,y);
-      }
-      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
-        if (solvable (y + 2, x + 1, num + 1)) { //checking from that location
-          return true;
-        }
-        removeKnight (x,y);
-      }
-      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
-        if (solvable (y - 2, x + 1, num + 1)) { //checking from that location
-          return true;
-        }
-        removeKnight (x,y);
-      }
-      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-        if (solvable (y + 1, x + 2, num + 1)) { //checking from that location
-          return true;
-        }
-        removeKnight (x,y);
-      }
-      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-        if (solvable (y - 1, x + 2, num + 1)) { //checking from that location
-          return true;
-        }
-        removeKnight (x,y);
-      }
-      return false;
+      return false; 
     }
   }
 
@@ -233,3 +193,55 @@ public class KnightBoard {
   }
 
 }
+
+/*
+if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
+  if (solvable (y + 1, x - 2, num + 1)) { //checking from that location
+    return true;
+  }
+  removeKnight (x,y);
+}
+if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
+  if (solvable (y - 1, x - 2, num + 1)) { //checking from that location
+    return true;
+  }
+  removeKnight (x,y);
+}
+if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
+  if (solvable (y + 2, x - 1, num + 1)) { //checking from that location
+    return true;
+  }
+  removeKnight (x,y);
+}
+if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
+  if (solvable (y -  2, x - 1, num + 1)) { //checking from that location
+    return true;
+  }
+  removeKnight (x,y);
+}
+if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
+  if (solvable (y + 2, x + 1, num + 1)) { //checking from that location
+    return true;
+  }
+  removeKnight (x,y);
+}
+if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
+  if (solvable (y - 2, x + 1, num + 1)) { //checking from that location
+    return true;
+  }
+  removeKnight (x,y);
+}
+if (moveKnight (y,x,2,1,num)) { //right 2 down 1
+  if (solvable (y + 1, x + 2, num + 1)) { //checking from that location
+    return true;
+  }
+  removeKnight (x,y);
+}
+if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
+  if (solvable (y - 1, x + 2, num + 1)) { //checking from that location
+    return true;
+  }
+  removeKnight (x,y);
+}
+return false;
+*/
