@@ -173,10 +173,8 @@ public class KnightBoard {
       int[] movesx = {1, -1, 2, -2, 1, -1, 2, -2};
       int[] movesy = {2, 2, 1, 1, -2, -2, -1, -1};
       for (int i = 0; i < movesx.length; i ++) {
-        if (movesx[i] != movesy[i]) {
-          if (moveKnight (y,x,movesx[i], movesy[i], num)) {
-            return count (y + movesy[i], x + movesx[i], partSum + 1, num + 1);
-          }
+        if (moveKnight (y,x,movesx[i], movesy[i], num)) {
+          return count (y + movesy[i], x + movesx[i], partSum + 1, num + 1);
         }
       }
       return 0;
