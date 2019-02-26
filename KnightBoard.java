@@ -101,7 +101,7 @@ public class KnightBoard {
     if (board[y][x] <= 0) { //if the knight hasn't been there yet
       return false;
     }
-    board[y][x] -= 1;
+    board[y][x] = 0;
     return true;
   }
 
@@ -139,18 +139,68 @@ public class KnightBoard {
       return true;
     }
     else {
-      int[] movesx = {1, -1, 2, -2, 1, -1, 2, -2};
-      int[] movesy = {1, -1, 2, -2, 1, -1, 2, -2};
-      for (int i = 0; i < movesx.length; i ++) {
-        if (movesx[i] != movesy[i]) {
-          if (moveKnight (y,x,movesx[i], movesy[i], num)) {
-            /*
-            if (solvable (y + movesy[i], x + movesx[i], num + 1)) {
-              return true;
-            }
-            */
-            return solvable (y + movesy[i], x + movesx[i], num + 1);
-          }
+      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
+        if (solvable (y + 1, x - 2, num + 1)) { //checking from that location
+          return true;
+        }
+        else {
+          removeKnight (x -2,y + 1);
+        }
+      }
+      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
+        if (solvable (y - 1, x - 2, num + 1)) { //checking from that location
+          return true;
+        }
+        else {
+          removeKnight (x -2 ,y - 1);
+        }
+      }
+      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
+        if (solvable (y + 2, x - 1, num + 1)) { //checking from that location
+          return true;
+        }
+        else {
+          removeKnight (x -1 ,y + 2);
+        }
+      }
+      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
+        if (solvable (y -  2, x - 1, num + 1)) { //checking from that location
+          return true;
+        }
+        else {
+          removeKnight (x - 1,y - 2);
+        }
+      }
+      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
+        if (solvable (y + 2, x + 1, num + 1)) { //checking from that location
+          return true;
+        }
+        else {
+          removeKnight (x +1 ,y + 2);
+        }
+      }
+      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
+        if (solvable (y - 2, x + 1, num + 1)) { //checking from that location
+          return true;
+        }
+        else {
+          removeKnight (x + 1,y -2 );
+        }
+      }
+      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
+        if (solvable (y + 1, x + 2, num + 1)) { //checking from that location
+          return true;
+        }
+        else {
+          removeKnight (x+2,y + 1);
+        }
+      }
+      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
+        if (solvable (y - 1, x + 2, num + 1)) { //checking from that location
+          return true;
+        }
+        else {
+          removeKnight (x + 2,y - 1);
         }
       }
       return false;
@@ -184,6 +234,21 @@ public class KnightBoard {
     }
   }
 }
+
+/*
+int[] movesx = {1, -1, 2, -2, 1, -1, 2, -2};
+int[] movesy = {2, 2, 1, 1, -2, -2, -1, -1};
+for (int i = 0; i < movesx.length; i ++) {
+  if (moveKnight (y,x,movesx[i], movesy[i], num)) {
+      /*
+      if (solvable (y + movesy[i], x + movesx[i], num + 1)) {
+        return true;
+      }
+      */
+//      return solvable (y + movesy[i], x + movesx[i], num + 1);
+//  }
+//}
+//return false;
 
 /*
 if (moveKnight (y,x,-2,1,num)) { //left 2 down 1

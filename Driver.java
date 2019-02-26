@@ -28,8 +28,13 @@ public class Driver {
   }
 
   public static void main (String[] args) {
+    KnightBoard test = new KnightBoard (5,5);
+    System.out.println (test.solve (3,3));
+    System.out.println (test.solve (1,3));
+    System.out.println (test.solve (3,2));
+    System.out.println (test.solve (2,4));
     for (int x = 0; x < 5; x ++) {
-      runTest (x);  
+      runTest (x);
     }
   }
 }
