@@ -124,7 +124,7 @@ public class KnightBoard {
       throw new IllegalStateException ();
     }
     placeKnight (startingRow, startingCol,1);
-    if (solvable (startingRow, startingCol, 1)) {
+    if (solvable (startingRow, startingCol, 2)) {
       return true;
     }
     else {
@@ -155,7 +155,14 @@ public class KnightBoard {
   }
 
   public int countSolutions (int startingRow, int startingCol) {
-    return count (startingRow, startingCol, 0 , 1);
+    if (startingRow < 0 || startingCol < 0 || startingRow > board.length || startingCol > board [startingRow].length) {
+      throw new IllegalArgumentException ("startingRow and startingCol have to be within bounds");
+    }
+    if (illegalState ()) {
+      throw new IllegalStateException ();
+    }
+    placeKnight (startingRow, startingCol,1);
+    return count (startingRow, startingCol, 0, 2);
   }
 
   private int count (int y, int x, int partSum, int num) {
@@ -163,34 +170,18 @@ public class KnightBoard {
       return partSum;
     }
     else {
-      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-        return count (y + 1, x - 2, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
-        return count (y - 1, x - 2, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
-        return count (y + 2, x - 1, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
-        return count (y -  2, x - 1, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
-        return count (y + 2, x + 1, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
-        return count (y - 2, x + 1, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-        return count (y + 1, x + 2, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-        return count  (y - 1, x + 2, partSum + 1, num + 1);
+      int[] movesx = {1, -1, 2, -2, 1, -1, 2, -2};
+      int[] movesy = {2, 2, 1, 1, -2, -2, -1, -1};
+      for (int i = 0; i < movesx.length; i ++) {
+        if (movesx[i] != movesy[i]) {
+          if (moveKnight (y,x,movesx[i], movesy[i], num)) {
+            return count (y + movesy[i], x + movesx[i], partSum + 1, num + 1);
+          }
+        }
       }
       return 0;
     }
   }
-
 }
 
 /*
