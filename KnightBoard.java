@@ -144,9 +144,12 @@ public class KnightBoard {
       for (int i = 0; i < movesx.length; i ++) {
         if (movesx[i] != movesy[i]) {
           if (moveKnight (y,x,movesx[i], movesy[i], num)) {
+            /*
             if (solvable (y + movesy[i], x + movesx[i], num + 1)) {
               return true;
             }
+            */
+            return solvable (y + movesy[i], x + movesx[i], num + 1);
           }
         }
       }
