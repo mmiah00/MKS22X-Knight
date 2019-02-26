@@ -223,12 +223,37 @@ public class KnightBoard {
       return partSum;
     }
     else {
-      int[] movesx = {1, -1, 2, -2, 1, -1, 2, -2};
-      int[] movesy = {2, 2, 1, 1, -2, -2, -1, -1};
-      for (int i = 0; i < movesx.length; i ++) {
-        if (moveKnight (y,x,movesx[i], movesy[i], num)) {
-          return count (y + movesy[i], x + movesx[i], partSum + 1, num + 1);
-        }
+      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
+        removeKnight (x -2, y + 1);
+        return count (y + 1, x - 2, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
+        removeKnight (x - 2, y - 1);
+        return count (y -2, x - 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
+        removeKnight (x - 1, y + 2);
+        return count (y + 2, x - 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
+        removeKnight (x - 1, y - 2);
+        return count (y - 2, x - 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
+        removeKnight (x + 1, y + 2);
+        return count (y + 2, x + 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
+        removeKnight (x + 1, y - 2);
+        return count (y -2, x + 1, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
+        removeKnight (x + 2, y - 1);
+        return count (y + 1, x +2, partSum + 1, num + 1);
+      }
+      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
+        removeKnight (x + 2, y -1); 
+        return count (y - 1, x + 2, partSum + 1, num + 1);
       }
       return 0;
     }
