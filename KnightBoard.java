@@ -229,7 +229,7 @@ public class KnightBoard {
       }
       if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
         removeKnight (x - 2, y - 1);
-        return count (y -2, x - 1, partSum + 1, num + 1);
+        return count (y - 1, x - 2, partSum + 1, num + 1);
       }
       if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
         removeKnight (x - 1, y + 2);
@@ -248,11 +248,11 @@ public class KnightBoard {
         return count (y -2, x + 1, partSum + 1, num + 1);
       }
       if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-        removeKnight (x + 2, y - 1);
+        removeKnight (x + 2, y + 1);
         return count (y + 1, x +2, partSum + 1, num + 1);
       }
       if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-        removeKnight (x + 2, y -1); 
+        removeKnight (x + 2, y -1);
         return count (y - 1, x + 2, partSum + 1, num + 1);
       }
       return 0;
