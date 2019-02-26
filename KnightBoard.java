@@ -215,16 +215,58 @@ public class KnightBoard {
       throw new IllegalStateException ();
     }
     placeKnight (startingRow, startingCol,1);
-    return count (startingRow, startingCol, 0, 2);
+    return count (startingRow, startingCol, 2);
   }
 
+  private int count (int y, int x, int num) {
+    int ans = 0;
+    if (num == board.length * board[y].length + 1) {
+      return 1;
+    }
+    else {
+      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
+        removeKnight (x - 2, y + 1);
+        ans += count (y + 1, x - 2, num + 1);
+      }
+      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
+        removeKnight (x - 2, y - 1);
+        ans += count (y - 1, x - 2, num + 1);
+      }
+      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
+        removeKnight (x - 1, y + 2);
+        ans += count (y + 2, x - 1, num + 1);
+      }
+      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
+        removeKnight (x - 1, y - 2);
+        ans += count (y - 2, x - 1, num + 1);
+      }
+      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
+        removeKnight (x + 1, y + 2);
+        ans += count (y + 2, x + 1, num + 1);
+      }
+      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
+        removeKnight (x + 1, y - 2);
+        ans += count (y -2, x + 1, num + 1);
+      }
+      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
+        removeKnight (x + 2, y + 1);
+        ans += count (y + 1, x +2, num + 1);
+      }
+      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
+        removeKnight (x + 2, y -1);
+        ans += count (y - 1, x + 2, num + 1);
+      }
+      return ans;
+    }
+  }
+  /*
   private int count (int y, int x, int partSum, int num) {
     if (num == board.length * board[y].length + 1) {
       return partSum;
     }
     else {
       if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-        removeKnight (x -2, y + 1);
+        removeKnight (x - 2, y + 1);
         return count (y + 1, x - 2, partSum + 1, num + 1);
       }
       if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
@@ -258,6 +300,7 @@ public class KnightBoard {
       return 0;
     }
   }
+  */
 }
 
 /*
