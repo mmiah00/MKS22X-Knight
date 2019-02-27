@@ -3,12 +3,58 @@ import java.io.File;
 
 public class KnightBoard {
   int[][] board;
+
   public KnightBoard (int startingRows, int startingCols) {
     if (startingCols <= 0 || startingRows <= 0) {
       throw new IllegalArgumentException ();
     }
     board = new int [startingRows][startingCols];
     reset ();
+  }
+
+  private void optimize (int y, int x, ArrayList <int[]> moves) {
+    for (int i= 0; i < moves.size (); i ++) {
+      if (!moveKnight (y,x, moves.get(i)[0], moves.get(i)[1], 1)) {
+        moves.remove (i);
+      }
+    }
+  }
+
+  public boolean optimizedSolve (int startingRow, int startingCol) {
+    if (startingRow < 0 || startingCol < 0 || startingRow > board.length || startingCol > board [startingRow].length) {
+      throw new IllegalArgumentException ("startingRow and startingCol have to be within bounds");
+    }
+    if (illegalState ()) {
+      throw new IllegalStateException ();
+    }
+    placeKnight (startingRow, startingCol,1);
+    if (solveB (startingRow, startingCol, 2)) {
+      return true;
+    }
+    else {
+      this.reset ();
+      return false;
+    }
+  }
+
+  private boolean solveB (int y, int x, int num ) {
+    if (num == board.length * board[y].length + 1) {
+      return true;
+    }
+    ArrayList <int[]> moves = new ArrayList <int[]> (); //all possible moves from that spot
+    int[] one = {1,2};          int[] two = {1,-2};             moves.add (one);            moves.add (two);
+    int[] three = {-1,2};       int[] four = {-1,-2};           moves.add (three);          moves.add (four);
+    int[] five = {2,1};         int[] six = {2,-1};             moves.add (five);           moves.add (six);
+    int[] seven = {-2,1};       int[] eight = {-2,-1};          moves.add (seven);          moves.add (eight);
+    optimize (y, x, moves); //removes moves that are not possible given the location
+    for (int i = 0; i < moves.size (); i ++) {
+      if (moveKnight (y, x, moves.get (i)[0], moves.get(i)[1], num)) {
+        if (solveB (y + moves.get (i)[0], x + moves.get (i)[1], num + 1)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private void reset () {
@@ -76,7 +122,7 @@ public class KnightBoard {
     board [y][x] = num;
   }
 
-  public boolean moveKnight (int y, int x, int xdir, int ydir, int num) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
+  private boolean moveKnight (int y, int x, int xdir, int ydir, int num) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
     if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2 || Math.abs (xdir) == Math.abs (ydir)) { //^^
       throw new IllegalArgumentException ();
     }
