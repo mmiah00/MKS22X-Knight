@@ -12,12 +12,57 @@ public class KnightBoard {
     reset ();
   }
 
-  private void optimize (int y, int x, ArrayList <int[]> moves) {
+  private ArrayList <int[]> optimize (int y, int x) {
+    /*
     for (int i= 0; i < moves.size (); i ++) {
       if (!moveKnight (y,x, moves.get(i)[0], moves.get(i)[1], 1)) {
         moves.remove (i);
       }
     }
+    */
+    ArrayList <int[]> moves = new ArrayList <int[]> (); //all possible moves from that spot
+    if (moveKnight (y,x, 1, 2, 1)) {
+      int[] one = {1,2};
+      moves.add (one);
+      removeKnight (y + 2, x + 1);
+    }
+    if (moveKnight (y,x, 1, -2, 1)) {
+      int[] two = {1,-2};
+      moves.add (two);
+      removeKnight (y - 2, x + 1);
+    }
+    if (moveKnight (y, x, -1,2,1)) {
+      int[] three = {-1,2};
+      moves.add (three);
+      removeKnight (y +2, x -1);
+    }
+    if (moveKnight (y, x, -1, -2,1)) {
+      int[] four = {-1,-2};
+      moves.add (four);
+      removeKnight (y -2, x -1);
+    }
+    if (moveKnight (y, x, 2 ,1, 1)) {
+      int[] five = {2,1};
+      moves.add (five);
+      removeKnight (y + 1, x + 2);
+    }
+    if (moveKnight (y,x, 2, -1, 1)) {
+      int[] six = {2,-1};
+      moves.add (six);
+      removeKnight (y -1, x + 2);
+    }
+    if (moveKnight (y,x, -2, 1,1)) {
+      int[] seven = {-2,1};
+      moves.add (seven);
+      removeKnight (y + 1, x - 2);
+    }
+    if (moveKnight (y,x, -2, -1,1)) {
+      int[] eight = {-2,-1};
+      moves.add (eight);
+      removeKnight (y -1, x - 2);
+    }
+    return moves;
+
   }
 
   public boolean optimizedSolve (int startingRow, int startingCol) {
@@ -41,15 +86,10 @@ public class KnightBoard {
     if (num == board.length * board[y].length + 1) {
       return true;
     }
-    ArrayList <int[]> moves = new ArrayList <int[]> (); //all possible moves from that spot
-    int[] one = {1,2};          int[] two = {1,-2};             moves.add (one);            moves.add (two);
-    int[] three = {-1,2};       int[] four = {-1,-2};           moves.add (three);          moves.add (four);
-    int[] five = {2,1};         int[] six = {2,-1};             moves.add (five);           moves.add (six);
-    int[] seven = {-2,1};       int[] eight = {-2,-1};          moves.add (seven);          moves.add (eight);
-    optimize (y, x, moves); //removes moves that are not possible given the location
-    for (int i = 0; i < moves.size (); i ++) {
-      if (moveKnight (y, x, moves.get (i)[0], moves.get(i)[1], num)) {
-        if (solveB (y + moves.get (i)[0], x + moves.get (i)[1], num + 1)) {
+    ArrayList <int[]> outgoing = optimize (y, x); //mkaes list of possible moves
+    for (int i = 0; i < outgoing.size (); i ++) {
+      if (moveKnight (y, x, outgoing.get (i)[0], outgoing.get(i)[1], num)) {
+        if (solveB (y + outgoing.get (i)[0], x + outgoing.get (i)[1], num + 1)) {
           return true;
         }
       }
@@ -124,7 +164,7 @@ public class KnightBoard {
 
   private boolean moveKnight (int y, int x, int xdir, int ydir, int num) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
     if (Math.abs (xdir) > 2 || Math.abs (ydir) > 2 || Math.abs (xdir) == Math.abs (ydir)) { //^^
-      throw new IllegalArgumentException ();
+      return false;
     }
 
     if (y >= board.length || y < 0 || x >= board[y].length || x < 0) { //out of bounds
