@@ -221,151 +221,43 @@ public class KnightBoard {
   private int count (int y, int x, int num) {
     int ans = 0;
     if (num == board.length * board[y].length + 1) {
-      return 1;
+      return 1; //if fills board, thats one solution
     }
     else {
       if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-        ans += count (y + 1, x - 2, num + 1);
-        removeKnight (x - 2, y + 1);
+        ans += count (y + 1, x - 2, num + 1); //add num solutions from that spot
+        removeKnight (x - 2, y + 1); //remove from that spot to check other possibilities
       }
       if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
-        ans += count (y - 1, x - 2, num + 1);
-        removeKnight (x - 2, y - 1);
+        ans += count (y - 1, x - 2, num + 1); //add num solutions from that spot
+        removeKnight (x - 2, y - 1); //remove from that spot to check other possibilities
       }
       if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
-        ans += count (y + 2, x - 1, num + 1);
-        removeKnight (x - 1, y + 2);
+        ans += count (y + 2, x - 1, num + 1); //add num solutions from that spot
+        removeKnight (x - 1, y + 2); //remove from that spot to check other possibilities
       }
       if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
-        ans += count (y - 2, x - 1, num + 1);
-        removeKnight (x - 1, y - 2);
+        ans += count (y - 2, x - 1, num + 1); //add num solutions from that spot
+        removeKnight (x - 1, y - 2); //remove from that spot to check other possibilities
       }
       if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
-        ans += count (y + 2, x + 1, num + 1);
-        removeKnight (x + 1, y + 2);
+        ans += count (y + 2, x + 1, num + 1); //add num solutions from that spot
+        removeKnight (x + 1, y + 2); //remove from that spot to check other possibilities
       }
       if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
-        ans += count (y -2, x + 1, num + 1);
-        removeKnight (x + 1, y - 2);
+        ans += count (y -2, x + 1, num + 1); //add num solutions from that spot
+        removeKnight (x + 1, y - 2); //remove from that spot to check other possibilities
       }
       if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-        ans += count (y + 1, x +2, num + 1);
-        removeKnight (x + 2, y + 1);
+        ans += count (y + 1, x +2, num + 1); //add num solutions from that spot
+        removeKnight (x + 2, y + 1); //remove from that spot to check other possibilities
       }
       if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-        ans += count (y - 1, x + 2, num + 1);
+        ans += count (y - 1, x + 2, num + 1); //add num solutions from that spot
         removeKnight (x + 2, y -1);
       }
       return ans;
     }
   }
-  /*
-  private int count (int y, int x, int partSum, int num) {
-    if (num == board.length * board[y].length + 1) {
-      return partSum;
-    }
-    else {
-      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-        removeKnight (x - 2, y + 1);
-        return count (y + 1, x - 2, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
-        removeKnight (x - 2, y - 1);
-        return count (y - 1, x - 2, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
-        removeKnight (x - 1, y + 2);
-        return count (y + 2, x - 1, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
-        removeKnight (x - 1, y - 2);
-        return count (y - 2, x - 1, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
-        removeKnight (x + 1, y + 2);
-        return count (y + 2, x + 1, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
-        removeKnight (x + 1, y - 2);
-        return count (y -2, x + 1, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-        removeKnight (x + 2, y + 1);
-        return count (y + 1, x +2, partSum + 1, num + 1);
-      }
-      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-        removeKnight (x + 2, y -1);
-        return count (y - 1, x + 2, partSum + 1, num + 1);
-      }
-      return 0;
-    }
-  }
-  */
-}
 
-/*
-int[] movesx = {1, -1, 2, -2, 1, -1, 2, -2};
-int[] movesy = {2, 2, 1, 1, -2, -2, -1, -1};
-for (int i = 0; i < movesx.length; i ++) {
-  if (moveKnight (y,x,movesx[i], movesy[i], num)) {
-      /*
-      if (solvable (y + movesy[i], x + movesx[i], num + 1)) {
-        return true;
-      }
-      */
-//      return solvable (y + movesy[i], x + movesx[i], num + 1);
-//  }
-//}
-//return false;
-
-/*
-if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-  if (solvable (y + 1, x - 2, num + 1)) { //checking from that location
-    return true;
-  }
-  removeKnight (x,y);
 }
-if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
-  if (solvable (y - 1, x - 2, num + 1)) { //checking from that location
-    return true;
-  }
-  removeKnight (x,y);
-}
-if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
-  if (solvable (y + 2, x - 1, num + 1)) { //checking from that location
-    return true;
-  }
-  removeKnight (x,y);
-}
-if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
-  if (solvable (y -  2, x - 1, num + 1)) { //checking from that location
-    return true;
-  }
-  removeKnight (x,y);
-}
-if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
-  if (solvable (y + 2, x + 1, num + 1)) { //checking from that location
-    return true;
-  }
-  removeKnight (x,y);
-}
-if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
-  if (solvable (y - 2, x + 1, num + 1)) { //checking from that location
-    return true;
-  }
-  removeKnight (x,y);
-}
-if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-  if (solvable (y + 1, x + 2, num + 1)) { //checking from that location
-    return true;
-  }
-  removeKnight (x,y);
-}
-if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-  if (solvable (y - 1, x + 2, num + 1)) { //checking from that location
-    return true;
-  }
-  removeKnight (x,y);
-}
-return false;
-*/
