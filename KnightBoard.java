@@ -92,6 +92,9 @@ public class KnightBoard {
         if (solveB (y + outgoing.get (i)[0], x + outgoing.get (i)[1], num + 1)) {
           return true;
         }
+        else {
+          removeKnight (x + outgoing.get (i)[1], y + outgoing.get (i)[0]);
+        }
       }
     }
     return false;
