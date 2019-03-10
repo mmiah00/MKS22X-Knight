@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class KnightBoard {
   private int [][] board;
-  //private static int [][] numMoves; //number of moves from each spot
   private static int [][] moves = { {2, 1}, {2, -1}, {-2, 1}, {-2, -1},
                                     {1, 2}, {1, -2}, {-1, 2}, {-1, -2}};
 
@@ -13,9 +12,7 @@ public class KnightBoard {
       throw new IllegalArgumentException ();
     }
     board = new int [startingRows][startingCols];
-    //numMoves = new int [startingRows][startingCols];
     reset ();
-    //numberMoves ();
   }
 
   private void reset () {
@@ -181,40 +178,6 @@ public class KnightBoard {
           removeKnight (y + moves[i][1], x + moves[i][0]);
         }
       }
-      /*
-      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-        ans += count (y + 1, x - 2, num + 1); //add num solutions from that spot
-        removeKnight (x - 2, y + 1); //remove from that spot to check other possibilities
-      }
-      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
-        ans += count (y - 1, x - 2, num + 1); //add num solutions from that spot
-        removeKnight (x - 2, y - 1); //remove from that spot to check other possibilities
-      }
-      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
-        ans += count (y + 2, x - 1, num + 1); //add num solutions from that spot
-        removeKnight (x - 1, y + 2); //remove from that spot to check other possibilities
-      }
-      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
-        ans += count (y - 2, x - 1, num + 1); //add num solutions from that spot
-        removeKnight (x - 1, y - 2); //remove from that spot to check other possibilities
-      }
-      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
-        ans += count (y + 2, x + 1, num + 1); //add num solutions from that spot
-        removeKnight (x + 1, y + 2); //remove from that spot to check other possibilities
-      }
-      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
-        ans += count (y -2, x + 1, num + 1); //add num solutions from that spot
-        removeKnight (x + 1, y - 2); //remove from that spot to check other possibilities
-      }
-      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-        ans += count (y + 1, x +2, num + 1); //add num solutions from that spot
-        removeKnight (x + 2, y + 1); //remove from that spot to check other possibilities
-      }
-      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-        ans += count (y - 1, x + 2, num + 1); //add num solutions from that spot
-        removeKnight (x + 2, y -1);
-      }
-      */
       return ans;
     }
   }
