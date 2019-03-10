@@ -1,103 +1,21 @@
 import java.util.ArrayList;
 import java.io.File;
+import java.util.Arrays;
 
 public class KnightBoard {
-  int[][] board;
+  private int [][] board;
+  //private static int [][] numMoves; //number of moves from each spot
+  private static int [][] moves = { {2, 1}, {2, -1}, {-2, 1}, {-2, -1},
+                                    {1, 2}, {1, -2}, {-1, 2}, {-1, -2}};
 
   public KnightBoard (int startingRows, int startingCols) {
     if (startingCols <= 0 || startingRows <= 0) {
       throw new IllegalArgumentException ();
     }
     board = new int [startingRows][startingCols];
+    //numMoves = new int [startingRows][startingCols];
     reset ();
-  }
-
-  private ArrayList <int[]> optimize (int y, int x) {
-    /*
-    for (int i= 0; i < moves.size (); i ++) {
-      if (!moveKnight (y,x, moves.get(i)[0], moves.get(i)[1], 1)) {
-        moves.remove (i);
-      }
-    }
-    */
-    ArrayList <int[]> moves = new ArrayList <int[]> (); //all possible moves from that spot
-    if (moveKnight (y,x, 1, 2, 1)) {
-      int[] one = {1,2};
-      moves.add (one);
-      removeKnight (y + 2, x + 1);
-    }
-    if (moveKnight (y,x, 1, -2, 1)) {
-      int[] two = {1,-2};
-      moves.add (two);
-      removeKnight (y - 2, x + 1);
-    }
-    if (moveKnight (y, x, -1,2,1)) {
-      int[] three = {-1,2};
-      moves.add (three);
-      removeKnight (y +2, x -1);
-    }
-    if (moveKnight (y, x, -1, -2,1)) {
-      int[] four = {-1,-2};
-      moves.add (four);
-      removeKnight (y -2, x -1);
-    }
-    if (moveKnight (y, x, 2 ,1, 1)) {
-      int[] five = {2,1};
-      moves.add (five);
-      removeKnight (y + 1, x + 2);
-    }
-    if (moveKnight (y,x, 2, -1, 1)) {
-      int[] six = {2,-1};
-      moves.add (six);
-      removeKnight (y -1, x + 2);
-    }
-    if (moveKnight (y,x, -2, 1,1)) {
-      int[] seven = {-2,1};
-      moves.add (seven);
-      removeKnight (y + 1, x - 2);
-    }
-    if (moveKnight (y,x, -2, -1,1)) {
-      int[] eight = {-2,-1};
-      moves.add (eight);
-      removeKnight (y -1, x - 2);
-    }
-    return moves;
-
-  }
-
-  public boolean optimizedSolve (int startingRow, int startingCol) {
-    if (startingRow < 0 || startingCol < 0 || startingRow > board.length || startingCol > board [startingRow].length) {
-      throw new IllegalArgumentException ("startingRow and startingCol have to be within bounds");
-    }
-    if (illegalState ()) {
-      throw new IllegalStateException ();
-    }
-    placeKnight (startingRow, startingCol,1);
-    if (solveB (startingRow, startingCol, 2)) {
-      return true;
-    }
-    else {
-      this.reset ();
-      return false;
-    }
-  }
-
-  private boolean solveB (int y, int x, int num ) {
-    if (num == board.length * board[y].length + 1) {
-      return true;
-    }
-    ArrayList <int[]> outgoing = optimize (y, x); //mkaes list of possible moves
-    for (int i = 0; i < outgoing.size (); i ++) {
-      if (moveKnight (y, x, outgoing.get (i)[0], outgoing.get(i)[1], num)) {
-        if (solveB (y + outgoing.get (i)[0], x + outgoing.get (i)[1], num + 1)) {
-          return true;
-        }
-        else {
-          removeKnight (x + outgoing.get (i)[1], y + outgoing.get (i)[0]);
-        }
-      }
-    }
-    return false;
+    //numberMoves ();
   }
 
   private void reset () {
@@ -111,7 +29,7 @@ public class KnightBoard {
   private boolean empty () {
     for (int y = 0; y < board.length; y ++) {
       for (int x = 0; x < board[y].length; x ++) {
-        if (board[y][x] > 0) {
+        if (board[y][x] != 0) {
           return false;
         }
       }
@@ -119,43 +37,8 @@ public class KnightBoard {
     return true;
   }
 
-  public String toString () {
-    if (empty ()) { //if empty
-      String ans = "";
-      for (int y = 0; y < board.length; y ++) {
-        for (int x = 0; x < board[y].length; x ++) {
-          if (x == board[y].length -1 ) { //if at edge
-            ans += "_\n";
-          }
-          else {
-            ans += "_ ";
-          }
-        }
-      }
-      return ans;
-    } //else
-    String ans = "";
-    for (int y = 0; y < board.length; y ++) {
-      for (int x = 0; x < board[y].length; x ++) {
-        if (board[y][x] < 10) { //if less than one leave a space i front of the digit
-          if (x == board[y].length - 1) { //if at edge
-            ans += " " + board[y][x] + "\n";
-          }
-          else {
-            ans += " " + board[y][x] + " ";
-          }
-        }
-        else {
-          if (x == board[y].length - 1) {
-            ans += board[y][x] + "\n";
-          }
-          else {
-            ans += board[y][x] + " ";
-          }
-        }
-      }
-    }
-    return ans;
+  private boolean onBoard (int y, int x) {
+    return ( y >= 0 && x >= 0 && y < board.length && x < board[y].length && board[y][x] == 0);
   }
 
   private void placeKnight (int y, int x, int num) {
@@ -163,6 +46,98 @@ public class KnightBoard {
       throw new IllegalArgumentException ();
     }
     board [y][x] = num;
+  }
+
+  private void removeKnight (int y, int x){
+    if (y > board.length || y < 0 || x > board[y].length || x < 0) {
+      throw new IllegalArgumentException ();
+    }
+    board[y][x] = 0;
+  }
+
+  private boolean solveSlow (int y, int x) {
+    if (!empty ()) {
+      throw new IllegalStateException ();
+    }
+    if (y > board.length || y < 0 || x > board[y].length || x < 0) {
+      throw new IllegalArgumentException ();
+    }
+    board[y][x] = 1;
+    return solvable (y,x, 2);
+  }
+
+  private boolean solvable (int y, int x, int num){
+    if (num == board.length * board[0].length) {
+      return true;
+    }
+    else {
+      for (int i = 0; i < moves.length ; i ++) {
+        if (onBoard (y + moves[i][0], x + moves[i][1])) {
+          board [y + moves[i][0]] [x + moves[i][1]] = num;
+          if (solvable (y + moves[i][0], x + moves[i][1], num + 1)) {
+            return true;
+          }
+          removeKnight (y + moves[i][0], x + moves[i][1]);
+        }
+      }
+      return false;
+    }
+  }
+
+  public boolean solve (int startingRow, int startingCol) {
+    if (!empty ()) {
+      throw new IllegalStateException ();
+    }
+    if (!onBoard (startingRow, startingCol)) {
+      throw new IllegalArgumentException ();
+    }
+    board[startingRow][startingCol] = 1;
+    return solveH (startingRow, startingCol, 2);
+  }
+
+  private boolean solveH (int y, int x, int num) {
+    if (num == board.length * board[y].length) {
+      return true;
+    }
+    else {
+      for (int i = 0; i < moves.length; i ++) {
+        int[] optimal = leastMoves (y,x); //coordinate with the least possible moves
+        if (optimal [0] == 1) {
+          placeKnight (optimal [1], optimal [2], num);
+          if (solveH (optimal[1], optimal [2], num + 1)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+  }
+
+  private int[] leastMoves (int y, int x) { //returns coordinates of the spot from y,x that has the least amount of outgoing moves
+    int[] ans = new int [3];
+    int min = 8; //8 being highest possible moves
+    for (int i = 0; i < moves.length; i ++) {
+      if (onBoard (y + moves[i][0], x + moves[i][1])) {
+        int movesHere = numberofMoves (y + moves[i][0], x + moves[i][1]);
+        if (movesHere < min) { //finding spot with lowest number of moves from that spot
+          min = movesHere;
+          ans [0] = 1; //move is possible (number of outgoing moves != 0 )
+          ans[1] = y + moves[i][0]; // new y coordinate
+          ans [2] = x + moves[i][1]; //new x coordinate
+        }
+      }
+    }
+    return ans;
+  }
+
+  private int numberofMoves (int y, int x) { //return number of moves from that spot
+    int ans = 0;
+    for (int i = 0; i < moves.length; i ++) {
+      if (onBoard (y+ moves[i][0], x + moves[i][1])) {
+        ans ++;
+      }
+    }
+    return ans;
   }
 
   private boolean moveKnight (int y, int x, int xdir, int ydir, int num) { //xdir is either +/- 1 or +/- 2 and ydir is either +/- 1 or +/- 2
@@ -183,124 +158,11 @@ public class KnightBoard {
     return true;
   }
 
-  private boolean removeKnight (int x, int y) {
-    if (y > board.length || x > board[y].length || y < 0 || x < 0) { //if it's not within bounds
-      throw new IllegalArgumentException ();
-    }
-    if (board[y][x] <= 0) { //if the knight hasn't been there yet
-      return false;
-    }
-    board[y][x] = 0;
-    return true;
-  }
-
-  private boolean illegalState () {
-    for (int y = 0; y < board.length; y ++) {
-      for (int x = 0; x < board[y].length; x ++) {
-        if (board[y][x] < 0) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  public boolean solve(int startingRow, int startingCol) {
-    if (startingRow < 0 || startingCol < 0 || startingRow > board.length || startingCol > board [startingRow].length) {
-      throw new IllegalArgumentException ("startingRow and startingCol have to be within bounds");
-    }
-    if (illegalState ()) {
-      throw new IllegalStateException ();
-    }
-    placeKnight (startingRow, startingCol,1);
-    if (solvable (startingRow, startingCol, 2)) {
-      return true;
-    }
-    else {
-      this.reset ();
-      return false;
-    }
-
-  }
-
-  private boolean solvable (int y, int x, int num) {
-    if (num == board.length * board[y].length + 1) { //if filled the whole board
-      return true;
-    }
-    else {
-      if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
-        if (solvable (y + 1, x - 2, num + 1)) { //checking from that location
-          return true;
-        }
-        else {
-          removeKnight (x -2,y + 1);
-        }
-      }
-      if (moveKnight (y,x,-2,-1,num)) { //left 2 up 1
-        if (solvable (y - 1, x - 2, num + 1)) { //checking from that location
-          return true;
-        }
-        else {
-          removeKnight (x -2 ,y - 1);
-        }
-      }
-      if (moveKnight (y,x,-1,2,num)) { //left 1 down 2
-        if (solvable (y + 2, x - 1, num + 1)) { //checking from that location
-          return true;
-        }
-        else {
-          removeKnight (x -1 ,y + 2);
-        }
-      }
-      if (moveKnight (y,x, - 1, - 2,num)) { //left 1 up 2
-        if (solvable (y -  2, x - 1, num + 1)) { //checking from that location
-          return true;
-        }
-        else {
-          removeKnight (x - 1,y - 2);
-        }
-      }
-      if (moveKnight (y,x, 1, 2,num)) { //right 1 down 2
-        if (solvable (y + 2, x + 1, num + 1)) { //checking from that location
-          return true;
-        }
-        else {
-          removeKnight (x +1 ,y + 2);
-        }
-      }
-      if (moveKnight (y,x, 1, -2,num)) { //right 1 up 2
-        if (solvable (y - 2, x + 1, num + 1)) { //checking from that location
-          return true;
-        }
-        else {
-          removeKnight (x + 1,y -2 );
-        }
-      }
-      if (moveKnight (y,x,2,1,num)) { //right 2 down 1
-        if (solvable (y + 1, x + 2, num + 1)) { //checking from that location
-          return true;
-        }
-        else {
-          removeKnight (x+2,y + 1);
-        }
-      }
-      if (moveKnight (y,x, 2, -1,num)) { //right 2 up 1
-        if (solvable (y - 1, x + 2, num + 1)) { //checking from that location
-          return true;
-        }
-        else {
-          removeKnight (x + 2,y - 1);
-        }
-      }
-      return false;
-    }
-  }
-
   public int countSolutions (int startingRow, int startingCol) {
     if (startingRow < 0 || startingCol < 0 || startingRow > board.length || startingCol > board [startingRow].length) {
       throw new IllegalArgumentException ("startingRow and startingCol have to be within bounds");
     }
-    if (illegalState ()) {
+    if (!empty ()) {
       throw new IllegalStateException ();
     }
     placeKnight (startingRow, startingCol,1);
@@ -313,6 +175,13 @@ public class KnightBoard {
       return 1; //if fills board, thats one solution
     }
     else {
+      for (int i = 0; i < moves.length; i ++) {
+        if (moveKnight (y, x, moves[i][0], moves[i][1], num)) {
+          ans += count (y + moves[i][1], x + moves[i][0], num + 1);
+          removeKnight (y + moves[i][1], x + moves[i][0]);
+        }
+      }
+      /*
       if (moveKnight (y,x,-2,1,num)) { //left 2 down 1
         ans += count (y + 1, x - 2, num + 1); //add num solutions from that spot
         removeKnight (x - 2, y + 1); //remove from that spot to check other possibilities
@@ -345,8 +214,33 @@ public class KnightBoard {
         ans += count (y - 1, x + 2, num + 1); //add num solutions from that spot
         removeKnight (x + 2, y -1);
       }
+      */
       return ans;
     }
   }
 
+
 }
+
+/*
+private ArrayList <int[]> possibleMoves (int y, int x) { //returns an arrayList of all the possible moves from that spot
+  ArrayList <int[]> ans = new ArrayList <int[]> ();
+  for (int i = 0; i < moves.length; i ++) {
+    int[] cors = new int [2];
+    if (onBoard (y + moves[i][0], x + moves[i][1])) {
+      cors [0] = moves[i][0];
+      cors [1] = moves[i][1];
+      ans.add (cors);
+    }
+  }
+  return ans ;
+}
+
+private void numberMoves () {
+  for (int y = 0; y < board.length; y ++) {
+    for (int x = 0; x < board[y].length; x ++) {
+      numMoves [y][x] = numberofMoves (y,x);
+    }
+  }
+}
+*/
