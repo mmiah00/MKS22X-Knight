@@ -199,11 +199,21 @@ public class KnightBoard {
     for (int r = 0 ; r < board.length; r ++ ) {
       for (int c = 0; c < board[r].length; c ++) {
         int now = board[r][c];
-        if (now < 10) {
-          ans += " "+now + " ";
+        if (now == 0) {
+          if (board.length * board[r].length < 10) {
+            ans += " " + (board.length * board[r].length) + " ";
+          }
+          else {
+            ans += (board.length * board[r].length) + " ";
+          }
         }
         else {
-          ans += now +" ";
+          if (now < 10) {
+            ans += " "+now + " ";
+          }
+          else {
+            ans += now +" ";
+          }
         }
         if (c == board[r].length -1){
           ans += "\n";
