@@ -182,6 +182,44 @@ public class KnightBoard {
     }
   }
 
+  public String toString () {
+    String ans = "";
+    if (empty ()) {
+      for (int r = 0; r < board.length; r ++) {
+        for (int c = 0;  c < board[r].length; c ++) {
+          ans += "_ ";
+          if (c == board[r].length - 1) {
+            ans +="\n";
+          }
+        }
+      }
+      return ans;
+    }
+
+    for (int r = 0 ; r < board.length; r ++ ) {
+      for (int c = 0; c < board[r].length; c ++) {
+        int now = board[r][c];
+        if (now < 10) {
+          ans += " "+now + " ";
+        }
+        else {
+          ans += now +" ";
+        }
+        if (c == board[r].length -1){
+          ans += "\n";
+        }
+      }
+    }
+    return ans;
+  }
+
+  public static void main (String[] args) {
+    KnightBoard test = new KnightBoard (5,4);
+    System.out.println (test.toString ());
+    test.solve (0,0);
+    System.out.println (test.toString ());
+  }
+
 
 }
 
